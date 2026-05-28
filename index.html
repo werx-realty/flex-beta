@@ -402,6 +402,7 @@ input,select,textarea{font-family:var(--font)}
 
 .badge-openescrow{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-dim);font-weight:700;}
 .badge-archive{background:rgba(136,136,136,0.15);color:var(--archive)}
+.badge-mofollowup{background:rgba(136,136,136,0.15);color:var(--archive)}
 .badge-called{background:rgba(74,222,128,0.15);color:var(--green)}
 .badge-notcalled{background:rgba(248,113,113,0.15);color:var(--red)}
 .badge-willcall{background:rgba(167,139,250,0.15);color:var(--purple)}
@@ -972,7 +973,7 @@ input,select,textarea{font-family:var(--font)}
 
 /* ═══ STATUS FILTER BUTTONS ════════════════════════════════════════════════ */
 .status-filter-btns{display:flex;gap:6px;align-items:center}
-.sfb{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--gray);font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap}
+.sfb{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--gray);font-size:0.78rem;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap;width:82px;overflow:hidden;text-overflow:ellipsis;text-align:center}
 .sfb:hover{color:var(--white);border-color:var(--white)}
 .sfb.active{color:#0d0d0f;border-color:transparent}
 /* All — gold when active */
@@ -1002,6 +1003,9 @@ input,select,textarea{font-family:var(--font)}
 .sfb-wholesale{color:var(--gold);border-color:var(--gold-dim)}
 .sfb-wholesale:hover{border-color:var(--gold);background:var(--gold-glow)}
 .sfb-wholesale.active{background:var(--gold)!important;border-color:var(--gold)!important;color:#0d0d0f!important}
+.sfb-mofollowup{color:#8888a0;border-color:rgba(136,136,160,0.25)}
+.sfb-mofollowup:hover{border-color:#8888a0;background:rgba(136,136,160,0.08)}
+.sfb-mofollowup.active{background:#8888a0!important;border-color:#8888a0!important;color:#0d0d0f!important}
 .badge-escrow{background:rgba(167,139,250,0.15);color:#a78bfa}
 /* ══ SALES BOARD ══════════════════════════════════════════ */
 .sb-gauge-row{
@@ -2449,6 +2453,7 @@ button.btn-danger:hover {
         <button class="sfb sfb-closed" data-filter="closed" onclick="setLeadsFilter('closed',this)">✅ Closed</button>
         <button class="sfb sfb-escrow" data-filter="escrow" onclick="setLeadsFilter('escrow',this)">🏡 In Escrow</button>
         <button class="sfb sfb-wholesale" data-filter="wholesale" onclick="setLeadsFilter('wholesale',this)">Wholesale</button>
+        <button class="sfb sfb-mofollowup" data-filter="mofollowup" onclick="setLeadsFilter('mofollowup',this)">Mo Follow Up</button>
       </div>
       <button class="btn btn-primary btn-sm" onclick="showView('add-lead')">+ Add Lead</button>
     </div>
@@ -2466,6 +2471,7 @@ button.btn-danger:hover {
       <option value="closed">✅ Closed</option>
       <option value="archive">📦 Archived</option>
       <option value="wholesale">Wholesale</option>
+      <option value="mofollowup">Mo Follow Up</option>
     </select>
     <select class="filter-select" id="filterCall" onchange="renderLeads()">
       <option value="">All Call Status</option>
@@ -2557,6 +2563,7 @@ button.btn-danger:hover {
             <option value="closed">✅ Closed</option>
             <option value="archive">📦 Archived</option>
             <option value="wholesale">Wholesale</option>
+            <option value="mofollowup">Mo Follow Up</option>
           </select>
         </div>
         <div class="form-group">
@@ -2663,6 +2670,7 @@ button.btn-danger:hover {
               <option value="closed">✅ Closed</option>
               <option value="archive">📦 Archived</option>
               <option value="wholesale">Wholesale</option>
+              <option value="mofollowup">Mo Follow Up</option>
             </select>
           </div>
           <div class="form-group">
@@ -4712,13 +4720,13 @@ function statusBadge(s){
   }
   const map={
     hot:'badge-hot', warm:'badge-warm', cold:'badge-cold',
-    closed:'badge-closed', archive:'badge-archive', escrow:'badge-escrow',
+    closed:'badge-closed', archive:'badge-archive', escrow:'badge-escrow', mofollowup:'badge-mofollowup',
     Active:'badge-active', Pending:'badge-warm', Expiring:'badge-hot',
     Closed:'badge-closed', Cancelled:'badge-archive'
   };
   const lbl={
     hot:'🔥 Hot', warm:'🌤 Warm', cold:'❄ Cold',
-    closed:'✅ Closed', archive:'📦 Archived', escrow:'🏡 In Escrow'
+    closed:'✅ Closed', archive:'📦 Archived', escrow:'🏡 In Escrow', mofollowup:'🚫 Mo Follow Up'
   };
   return `<span class="badge ${map[s]||''}">${lbl[s]||s}</span>`;
 }
@@ -10490,6 +10498,7 @@ function syncGaugesFromProperties(){
       <option value="cold">❄ Cold</option>
       <option value="closed">✅ Closed</option>
       <option value="wholesale">Wholesale</option>
+      <option value="mofollowup">Mo Follow Up</option>
     </select>
     <button class="al-close-btn" onclick="closeAddLeadDrawer()">✕</button>
   </div>
